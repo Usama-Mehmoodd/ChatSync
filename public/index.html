@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>chatting app</title>
+</head>
+
+<body>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    #show-messages {
+      width: 400px;
+      height: 300px;
+      border: 2px solid #ccc;
+      background: white;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      padding: 10px;
+    }
+
+    #message {
+      width: 300px;
+      padding: 8px;
+    }
+
+    #sendBtn {
+      padding: 8px 15px;
+    }
+
+    .self {
+      text-align: right;
+      color: green;
+    }
+
+    .other {
+      text-align: left;
+      color: blue;
+    }
+  </style>
+  <h2>chatting app</h2>
+  <!-- <button onclick="createConnection()">create WS connection</button> -->
+
+  <input type="text" id="message" placeholder="enter message" />
+  <button id="sendBtn">send</button>
+
+  <div id="show-messages"></div>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    
+    const socket = io();
+
+          const sendBtn = document.getElementById('sendBtn');
+          const inputMessage = document.getElementById('message');
+          const allMessages = document.getElementById('show-messages');
+
+
+          // here the recieve the chat-message from server
+          socket.on('chat-message', (data) => {
+
+            // console.log(data);
+
+            // const para = document.createElement('p');
+            // para.innerText = data;
+
+
+            // allMessages.appendChild(para);
+
+            const para = document.createElement('p');
+            para.className = data.id === socket.id ? 'self' : 'other';
+            para.innerText = (data.id === socket.id ? 'you' : 'friend') + '\n' + data.text;
+
+            allMessages.appendChild(para);
+            allMessages.scrollTop = allMessages.scrollHeight;
+          });
+
+
+
+          sendBtn.addEventListener('click', (e) => {
+
+            const message = inputMessage.value;
+            console.log(message);
+
+            // data send to server pass basically event
+            // which is user fill the input feild
+            socket.emit('user-message', message);
+
+            inputMessage.value = '';
+
+          });
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>
