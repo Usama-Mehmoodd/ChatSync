@@ -31,7 +31,17 @@ io.on('connection', (socket) => {
     //     console.log(`user with ID: ${socket.id} joined room: ${data}`);
     // });
 
+    // send message to every connected client 
     socket.emit('welcome', 'Welcome to the server!');
+
+    // receive message from who use that event
+    socket.on("send-message", (message) => {
+        console.log(message);
+
+        // send message to all connected clients
+        io.emit("receive-message", message);
+    });
+
 
 });
 

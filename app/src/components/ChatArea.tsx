@@ -1,8 +1,86 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
+import { socket } from "./socket";
+
 
 export default function ChatArea() {
 
-    
+
+    useEffect(() => {
+
+        socket.on("connection", () => {
+            console.log("Connected to server with id: " + socket.id);
+        });
+
+
+
+        // socket.on('receive-message', (data) => {
+        //     setChatMessages((prev) => [
+        //         ...prev,
+        //         {
+        //             text : data.text,
+        //             date : data.date,
+        //         },
+        //     ]);
+        // });
+
+        socket.on("receive-message", (data) => {
+            setChatMessages((prev) => [...prev, data]);
+        });
+
+        return () => {
+            socket.off("receive-message");
+        };
+
+    }, []);
+    let senderId: string = socket.id || '';
+
+    //  the state handle the user input
+    const [message, setMessage] = useState('');
+
+    // all messages will be stored in this state, and we will render them in the chat area
+    const [chatMessages, setChatMessages] =
+        useState<{ text: string, date: string, sender: string }[]>([]);
+
+
+    // here data send to backend
+
+    const handleSendMessage = () => {
+        console.log(message);
+
+        // setChatMessages((prev) => [
+        //     ...prev,
+        //     {
+        //         text: message,
+        //         date: new Date().toLocaleTimeString(),
+        //     },
+        // ]);
+
+        // send message to backend 
+
+        console.log(socket.id);
+        
+        socket.emit('send-message', {
+            text: message,
+            date: new Date().toLocaleTimeString(),
+            sender: socket.id,
+        });
+
+        // listen message from other clients 
+        socket.on('receive-message', (data) => {
+            setChatMessages((prev) => [
+                ...prev,
+                {
+                    text: data.text,
+                    date: data.date,
+                    sender: socket.id || '',
+                },
+            ]);
+        });
+
+        setMessage('');
+
+    }
 
 
 
@@ -59,17 +137,26 @@ export default function ChatArea() {
                 </div>
 
                 {/* Outgoing */}
-                <div className="flex justify-end">
+                <div className={`flex ${senderId === socket.id ? 'justify-end' : 'justify-start'} items-end gap-2`}>
                     <div>
-                        <div className="bg-blue-500 text-lg text-white rounded-xl px-5 py-3">
-                            Hello Alice! How are you?
-                        </div>
-
-                        <p className="text-xs text-right text-slate-500 mt-1">
-                            10:29 AM
-                        </p>
+                        {
+                            chatMessages.map((msg, index) => (
+                                <div key={index}>
+                                    <div className={`w-max text-white rounded-xl 
+                                        text-lg px-5 py-3 ${senderId === socket.id ? 'bg-blue-600' : 'bg-white'}`}>
+                                        {msg.text}
+                                    </div>
+                                    <p className="text-sm text-slate-500 mt-1 text-right">
+                                        {msg.date}
+                                    </p>
+                                </div>
+                            ))
+                        }
                     </div>
                 </div>
+
+
+
             </div>
 
             {/* Input */}
@@ -83,6 +170,9 @@ export default function ChatArea() {
                     <input
                         type="text"
                         id="message"
+                        value={message}
+                        onChange={(e) =>
+                            setMessage(e.target.value)}
                         placeholder="Type a message..."
                         className="w-full text-xl text-slate-700 focus:outline-none placeholder-slate-400"
                     />
@@ -93,6 +183,8 @@ export default function ChatArea() {
                 </div>
 
                 <button
+                    onClick={() => handleSendMessage()}
+                    style={{ cursor: "pointer" }}
                     id="sendMessageBtn"
                     className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition shadow-sm shadow-blue-200 flex-shrink-0"
                 >
