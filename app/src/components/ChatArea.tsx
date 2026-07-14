@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from "react";
-import { socket } from "./socket";
+import { socket } from './socket';
+import ChatMessage from './ChatMessage';
 
 
 export default function ChatArea() {
@@ -12,39 +13,48 @@ export default function ChatArea() {
             console.log("Connected to server with id: " + socket.id);
         });
 
-
-
-        // socket.on('receive-message', (data) => {
-        //     setChatMessages((prev) => [
-        //         ...prev,
-        //         {
-        //             text : data.text,
-        //             date : data.date,
-        //         },
-        //     ]);
-        // });
-
-        socket.on("receive-message", (data) => {
+        socket.on("send-message", (data) => {
             setChatMessages((prev) => [...prev, data]);
         });
 
         return () => {
-            socket.off("receive-message");
+            socket.off("send-message");
         };
 
     }, []);
-    let senderId: string = socket.id || '';
-
-    //  the state handle the user input
     const [message, setMessage] = useState('');
 
     // all messages will be stored in this state, and we will render them in the chat area
     const [chatMessages, setChatMessages] =
         useState<{ text: string, date: string, sender: string }[]>([]);
 
+    let senderId: string = socket.id ? socket.id : "";
+
+
+
+    // here we listen to the message from the backend, and we will update the chatMessages state with the new message
+    // socket.on('send-message', (message) => {
+
+    // console.log('a new user message from: ' + message);
+
+    // const { text, date, sender } = message;
+
+    // console.log('message : ' + text + ' date : ' + date + ' sender : ' + sender);
+
+
+
+    // console.log(typeof sender, 'we receive the id from server: ');
+
+    // socket.off("send-message");
+    // const state = [...chatMessages, { text, date, sender }];
+
+    // setChatMessages(state);
+
+
+    // });
+
 
     // here data send to backend
-
     const handleSendMessage = () => {
         console.log(message);
 
@@ -53,29 +63,18 @@ export default function ChatArea() {
         //     {
         //         text: message,
         //         date: new Date().toLocaleTimeString(),
+        //         sender: senderId,
         //     },
         // ]);
 
         // send message to backend 
 
         console.log(socket.id);
-        
-        socket.emit('send-message', {
-            text: message,
-            date: new Date().toLocaleTimeString(),
-            sender: socket.id,
-        });
 
-        // listen message from other clients 
-        socket.on('receive-message', (data) => {
-            setChatMessages((prev) => [
-                ...prev,
-                {
-                    text: data.text,
-                    date: data.date,
-                    sender: socket.id || '',
-                },
-            ]);
+        socket.emit('client-message', {
+            text: message,
+            date: new Date().toISOString(),
+            sender: senderId,
         });
 
         setMessage('');
@@ -137,23 +136,10 @@ export default function ChatArea() {
                 </div>
 
                 {/* Outgoing */}
-                <div className={`flex ${senderId === socket.id ? 'justify-end' : 'justify-start'} items-end gap-2`}>
-                    <div>
-                        {
-                            chatMessages.map((msg, index) => (
-                                <div key={index}>
-                                    <div className={`w-max text-white rounded-xl 
-                                        text-lg px-5 py-3 ${senderId === socket.id ? 'bg-blue-600' : 'bg-white'}`}>
-                                        {msg.text}
-                                    </div>
-                                    <p className="text-sm text-slate-500 mt-1 text-right">
-                                        {msg.date}
-                                    </p>
-                                </div>
-                            ))
-                        }
-                    </div>
+                <div>
+                    <ChatMessage client={socket.id || ''} data={chatMessages}/>
                 </div>
+
 
 
 

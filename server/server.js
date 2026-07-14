@@ -34,12 +34,12 @@ io.on('connection', (socket) => {
     // send message to every connected client 
     socket.emit('welcome', 'Welcome to the server!');
 
-    // receive message from who use that event
-    socket.on("send-message", (message) => {
+    // receive message from client who use that event
+    socket.on("client-message", (message) => {
         console.log(message);
 
         // send message to all connected clients
-        io.emit("receive-message", message);
+        io.emit("send-message", message);
     });
 
 
