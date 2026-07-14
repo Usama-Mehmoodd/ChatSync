@@ -5,7 +5,8 @@ export default function ConversationList() {
 
 
     return (
-        <div className="conversation-list w-80 h-dvh bg-white border-r border-slate-100">
+        // <div className="conversation-list w-80 h-dvh bg-white border-r border-slate-100">
+        <div className="conversation-list w-80 h-screen bg-white border-r border-slate-100 overflow-y-auto">
             <div className="border-r border-slate-100 flex flex-col flex-shrink-0">
                 <div className="p-4 flex items-center justify-between border-b border-slate-300">
                     <h3 className="text-lg font-bold text-slate-800 ">Conversations</h3>

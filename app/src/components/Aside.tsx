@@ -40,7 +40,8 @@ export default function Aside() {
 
   return (
     <div>
-      <div className="w-80 h-dvh bg-gray-800 text-white p-4">
+      {/* <div className="w-80 h-dvh bg-gray-800 text-white p-4"> */}
+      <div className="w-80 h-screen bg-gray-800 text-white p-4 overflow-y-auto">
         <h2 className="text-2xl font-bold mb-4">WebSocket Chat</h2>
         <ul>
           {navItems.map((item, index) => (
