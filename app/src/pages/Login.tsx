@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+  
+import type { LoginData } from "../../types/index";
+import { login } from "../services/apiHandling";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -11,16 +14,26 @@ export default function Login() {
     e.preventDefault();
     console.log("Login data:", formData);
     
-    const res = await fetch('http://localhost:5000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    // const res = await fetch('http://localhost:5000/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(formData),
+    // });
 
-    const data = await res.json();
-    console.log("Response from server:", data);
+    // const data = await res.json();
+    // console.log("Response from server:", data);
+
+    try {
+
+      const data = await login(formData as LoginData);
+      console.log("Response from server:", data);
+
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+
 
   };
 

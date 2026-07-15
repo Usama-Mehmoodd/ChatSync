@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import type { SignupData } from "../../types/index";
+import { signup } from "../services/apiHandling";
+
 
 export default function SignupForm() {
 
@@ -17,17 +20,12 @@ export default function SignupForm() {
         e.preventDefault();
         console.log("Signup data:", formData);
 
-        const res = await fetch('http://localhost:5000/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-
-        const data = await res.json();
-        console.log("Response from server:", data);
-
+        try {
+            const data = await signup(formData as SignupData);
+            console.log("Response from server:", data);
+        } catch (error) {
+            console.error("Error signing up:", error);
+        }
 
     };
 
