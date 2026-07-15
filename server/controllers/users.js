@@ -2,8 +2,17 @@ const express = require("express");
 const { generateToken } = require("../services/auth");
 const { User } = require("../models/users");
 
+const { userSchema } = require("../services/usersData");
+
 async function handleSignUp(req, res) {
   const { username, email, password } = req.body;
+
+  const validationResult = userSchema.safeParse({ username, email, password });
+  if (!validationResult.success) {
+    return res.status(400).json({ message: validationResult.error.errors[0].message });
+  }
+
+  const { username, email, password } = validationResult.data;
 
   if (!username || !email || !password) {
     return res
@@ -31,6 +40,13 @@ async function handleSignUp(req, res) {
 
 async function handleLogin(req, res) {
   const { email, password } = req.body;
+
+  const validationResult = userSchema.safeParse({ email, password });
+  if (!validationResult.success) {
+    return res.status(400).json({ message: validationResult.error.errors[0].message });
+  }
+
+  const { email, password } = validationResult.data;
 
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
