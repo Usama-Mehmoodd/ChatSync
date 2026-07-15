@@ -2,8 +2,13 @@
 // require modules
 const express = require('express');
 const cors = require('cors');
+
 const http = require('http');
 const { Server } = require('socket.io');
+
+// database connection
+const connectDB = require('./database/connectionDB');
+connectDB();
 
 
 const app = express();
@@ -12,6 +17,13 @@ const server = http.createServer(app);
 app.use(cors());
 app.use(express.json());
 
+
+// importing the routes
+const userRouter = require('./routes/users')
+
+
+
+
 const io = new Server(server, {
     cors: {
         origin: 'http://localhost:5173',
@@ -19,6 +31,9 @@ const io = new Server(server, {
         credentials: true
     }
 });
+
+
+
 
 
 //   socket connection and initialization
@@ -55,7 +70,7 @@ app.get('/', (req, res)  => {
 
 
 
-
+app.use('/', userRouter);
 
 
 
