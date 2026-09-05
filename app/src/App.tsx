@@ -9,6 +9,7 @@ import Settings from './pages/Settings';
 import Chats from './pages/Chats';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+// import ConversationList from './components/ConversationList';
 
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
         <Route index element={<Chats />} />
 
         <Route path="chats" element={<Chats />} />
+        {/* <Route path='conversationList' element={<ConversationList/>} /> */}
         <Route path="users" element={<Users />} />
         <Route path="settings" element={<Settings />} />
         <Route path="about" element={<About />} />

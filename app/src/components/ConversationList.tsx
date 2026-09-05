@@ -2,6 +2,29 @@ import React from 'react'
 
 export default function ConversationList() {
 
+    React.useEffect(() => {
+
+    }, []);
+
+    const [allUsers, setAllUsers] = React.useState([]);
+
+    async function getAllUsers () {
+
+        try {
+            const url : string = 'http://localhost/users';
+
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log(data);
+
+            
+
+        } catch (error) {
+            console.error('failed to fetch all users', error);
+        }
+
+    } 
+
 
 
     return (

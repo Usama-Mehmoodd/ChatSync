@@ -7,22 +7,22 @@ const { userSchema } = require("../services/usersData");
 async function handleSignUp(req, res) {
   const { username, email, password } = req.body;
 
-  const validationResult = userSchema.safeParse({ username, email, password });
-  if (!validationResult.success) {
-    return res.status(400).json({ message: validationResult.error.errors[0].message });
+  const validatedResult = userSchema.safeParse({ username, email, password });
+  if (!validatedResult.success) {
+    return res.status(400).json({ message: validatedResult.error.errors[0].message });
   }
 
-  const { username, email, password } = validationResult.data;
+  // const { username, email, password } = validatedResult.data;
 
-  if (!username || !email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Username, email and password are required" });
-  }
+  // if (!username || !email || !password) {
+  //   return res
+  //     .status(400)
+  //     .json({ message: "Username, email and password are required" });
+  // }
 
   const existingUser = await User.findOne({ email: email });
 
-  if (existingUser) {
+  if (!existingUser) {
     return res.status(400).json({ message: "Email already in use" });
   }
 
@@ -41,16 +41,16 @@ async function handleSignUp(req, res) {
 async function handleLogin(req, res) {
   const { email, password } = req.body;
 
-  const validationResult = userSchema.safeParse({ email, password });
-  if (!validationResult.success) {
-    return res.status(400).json({ message: validationResult.error.errors[0].message });
+  const validatedResult = userSchema.safeParse({ email, password });
+  if (!validatedResult.success) {
+    return res.status(400).json({ message: validatedResult.error.errors[0].message });
   }
 
-  const { email, password } = validationResult.data;
+  // const { email, password } = validatedResult.data;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email and password are required" });
-  }
+  // if (!email || !password) {
+  //   return res.status(400).json({ message: "Email and password are required" });
+  // }
 
   const existingUser = await User.findOne({ email: email });
 
@@ -72,7 +72,19 @@ async function handleLogin(req, res) {
   });
 }
 
+async function allUsers(req, res) {
+ 
+  const allExsistingUsers = await User.find({});
+
+  res.status(200).json({success : true, message : 'get all users successfully', data : allExsistingUsers});
+
+
+}
+
+
+
 module.exports = {
   handleSignUp,
   handleLogin,
+  allUsers
 };
