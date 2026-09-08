@@ -1,29 +1,41 @@
 import React from 'react'
 
-export default function ConversationList() {
+export default function ConversationList({ onSelectedUser }: { onSelectedUser: (user: any) => void }) {
 
     React.useEffect(() => {
 
+        getAllUsers();
+
     }, []);
 
-    const [allUsers, setAllUsers] = React.useState([]);
+    const [allUsers, setAllUsers] = React.useState<any[]>([]);
 
-    async function getAllUsers () {
+    async function getAllUsers() {
 
         try {
-            const url : string = 'http://localhost/users';
+            const url: string = 'http://localhost:5000/users';
 
             const response = await fetch(url);
-            const data = await response.json();
-            console.log(data);
+            const result = await response.json();
+            // console.log(result.data);
 
-            
+            const transformedData = dataTransformation(result.data);
+            setAllUsers(transformedData);
 
         } catch (error) {
             console.error('failed to fetch all users', error);
         }
 
-    } 
+    }
+
+    function dataTransformation(data: any) {
+        const originalData = Array.isArray(data) ? data : [];
+
+        return originalData.map(user => ({
+            ...user,
+            username: user.username.charAt(0).toUpperCase() + user.username.slice(1)
+        }));
+    }
 
 
 
@@ -39,18 +51,21 @@ export default function ConversationList() {
                 </div>
             </div>
 
-            <div className="flex p-5">
-                <div className="circle size-9 bg-blue-400 rounded-full flex items-center justify-center text-white">
-                    <span>A</span>
-                </div>
-                <div className="nameTitle px-6 ">
-                    <h4 className="text-sm font-semibold text-slate-800">Alice</h4>
-                    <p className="text-sm text-slate-500">Hello, how are you?</p>
-                </div>
+            {allUsers.map((elem: any) => (
+                <div className="flex p-5 border-b border-slate-200 transition hover:bg-slate-200 cursor-pointer" key={elem._id} onClick={() => onSelectedUser(elem)}>
+                    <div className="circle size-9 bg-blue-400 rounded-full flex items-center justify-center text-white">
+                        <span>{elem.username.charAt(0)}</span>
+                    </div>
+                    <div className="nameTitle px-6 ">
+                        <h4 className="text-sm font-semibold text-slate-800">{elem.username}</h4>
+                        <p className="text-sm text-slate-500">Hello, how are you?</p>
+                    </div>
 
-            </div>
+                </div>
+            ))}
 
 
         </div>
     )
+
 }

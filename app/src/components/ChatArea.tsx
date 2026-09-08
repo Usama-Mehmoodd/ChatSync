@@ -4,8 +4,15 @@ import { socket } from './socket';
 import ChatMessage from './ChatMessage';
 
 
-export default function ChatArea() {
+export default function ChatArea({ selectedUser }: { selectedUser: any }) {
 
+    const [message, setMessage] = useState('');
+
+    // all messages will be stored in this state, and we will render them in the chat area
+    const [chatMessages, setChatMessages] =
+        useState<{ text: string, date: string, sender: string }[]>([]);
+
+    let senderId: string = socket.id ? socket.id : "";
 
     useEffect(() => {
 
@@ -22,13 +29,6 @@ export default function ChatArea() {
         };
 
     }, []);
-    const [message, setMessage] = useState('');
-
-    // all messages will be stored in this state, and we will render them in the chat area
-    const [chatMessages, setChatMessages] =
-        useState<{ text: string, date: string, sender: string }[]>([]);
-
-    let senderId: string = socket.id ? socket.id : "";
 
 
 
@@ -89,11 +89,11 @@ export default function ChatArea() {
             <div className="flex items-center justify-between px-4 py-2 bg-white border-b border-b-slate-300 border-l border-l-slate-200">
                 <div className="flex items-center gap-3">
                     <div className="size-10 rounded-full bg-blue-500 flex items-center justify-center text-xl  text-white">
-                        A
+                        {selectedUser?.username?.charAt(0).toUpperCase() || 'U'}
                     </div>
 
                     <div>
-                        <h3 className="font-semibold text-lg text-slate-800">Alice</h3>
+                        <h3 className="font-semibold text-lg text-slate-800">{selectedUser?.username}</h3>
                         <p className="text-sm text-green-500">Online</p>
                     </div>
                 </div>
@@ -121,7 +121,7 @@ export default function ChatArea() {
                 {/* Incoming */}
                 <div className="flex items-end gap-2">
                     <div className="size-8 text-lg rounded-full bg-purple-500 flex items-center justify-center text-white">
-                        A
+                        {selectedUser?.username?.charAt(0).toUpperCase() || 'U'}
                     </div>
 
                     <div>
@@ -130,7 +130,7 @@ export default function ChatArea() {
                         </div>
 
                         <p className="text-sm text-slate-500 mt-1">
-                            10:28 AM
+                            10:30 AM
                         </p>
                     </div>
                 </div>
@@ -140,12 +140,9 @@ export default function ChatArea() {
                     <ChatMessage client={socket.id || ''} data={chatMessages}/>
                 </div>
 
-
-
-
             </div>
 
-            {/* Input */}
+            {/* input field */}
 
             <div className="p-3 bg-white border-t border-slate-100 flex items-center space-x-3 flex-shrink-0">
                 <div className="flex-1 flex items-center border border-slate-200 bg-slate-50/50 rounded-full px-4 py-2 focus-within:border-slate-300 transition">

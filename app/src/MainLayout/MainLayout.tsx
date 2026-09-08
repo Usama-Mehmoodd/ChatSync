@@ -97,7 +97,9 @@ export default function MainLayout() {
   
   const [showAside, setShowAside] = React.useState(true);
   const [showConversations, setShowConversations] = React.useState(true);
+
   const windowWidth = useWindowWidth();
+  const [selectedUser, setSelectedUser] = React.useState(null);
   
   // Determine if we're on mobile, tablet, or desktop
   const isMobile = windowWidth < 768;
@@ -166,7 +168,7 @@ export default function MainLayout() {
           ${isDesktop ? 'lg:w-80' : ''}
           transition-all duration-300 ease-in-out
         `}>
-          <ConversationList />
+          <ConversationList onSelectedUser={setSelectedUser} />
         </div>
       )}
 
@@ -185,7 +187,7 @@ export default function MainLayout() {
         ${isTablet && !showConversations ? 'md:ml-0' : 'md:ml-0'}
         ${isDesktop ? 'lg:ml-0' : ''}
       `}>
-        <Outlet />
+        <Outlet context={{selectedUser}}/>
       </div>
     </div>
   );

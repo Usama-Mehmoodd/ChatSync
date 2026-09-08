@@ -74,7 +74,10 @@ async function handleLogin(req, res) {
 
 async function allUsers(req, res) {
  
+  console.log("all users route called");
   const allExsistingUsers = await User.find({});
+
+  console.log(allExsistingUsers);
 
   res.status(200).json({success : true, message : 'get all users successfully', data : allExsistingUsers});
 

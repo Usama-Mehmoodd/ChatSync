@@ -70,7 +70,9 @@ app.get('/', (req, res)  => {
 
 
 
-app.use('/', userRouter);
+// app.use('/', userRouter);
+
+app.use('/users', userRouter)
 
 
 
