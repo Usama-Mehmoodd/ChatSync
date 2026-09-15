@@ -179,3 +179,8 @@ export default function ChatArea({ selectedUser }: { selectedUser: any }) {
         </div>
     );
 }
+
+
+
+
+
