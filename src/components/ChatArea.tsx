@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { socket } from './socket';
 import ChatMessage from './ChatMessage';
 
@@ -144,7 +144,7 @@ export default function ChatArea({ selectedUser }: { selectedUser: any }) {
 
             {/* input field */}
 
-            <div className="p-3 bg-white border-t border-slate-100 flex items-center space-x-3 flex-shrink-0">
+            <div className="p-3 bg-white border-t border-slate-100 flex items-center space-x-3 shrink-0">
                 <div className="flex-1 flex items-center border border-slate-200 bg-slate-50/50 rounded-full px-4 py-2 focus-within:border-slate-300 transition">
                     <button className="text-slate-400 hover:text-slate-600 pr-2 transition">
                         <i className="fa-solid fa-paperclip text-base"></i>
@@ -169,7 +169,7 @@ export default function ChatArea({ selectedUser }: { selectedUser: any }) {
                     onClick={() => handleSendMessage()}
                     style={{ cursor: "pointer" }}
                     id="sendMessageBtn"
-                    className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition shadow-sm shadow-blue-200 flex-shrink-0"
+                    className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition shadow-sm shadow-blue-200 shrink-0"
                 >
                     <i className="fa-solid fa-paper-plane text-lg ml-0.5"></i>
                 </button>
