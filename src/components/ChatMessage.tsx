@@ -1,5 +1,4 @@
-import React from 'react';
-import { socket } from './socket';
+// import { socket } from './socket';
 
 export default function ChatMessage({
     client: socketId,
