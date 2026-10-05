@@ -16,17 +16,21 @@ export default function ChatArea({ selectedUser }: { selectedUser: any }) {
 
     useEffect(() => {
 
-        socket.on("connection", () => {
-            console.log("Connected to server with id: " + socket.id);
-        });
+        // socket.on("connection", () => {
+        //     console.log("Connected to server with id: " + socket.id);
+        // });
 
-        socket.on("send-message", (data) => {
-            setChatMessages((prev) => [...prev, data]);
-        });
+        // socket.on("send-message", (data) => {
+        //     setChatMessages((prev) => [...prev, data]);
+        // });
 
-        return () => {
-            socket.off("send-message");
-        };
+        // return () => {
+        //     socket.off("send-message");
+        // };
+
+
+
+
 
     }, []);
 
@@ -137,7 +141,7 @@ export default function ChatArea({ selectedUser }: { selectedUser: any }) {
 
                 {/* Outgoing */}
                 <div>
-                    <ChatMessage client={socket.id || ''} data={chatMessages}/>
+                    <ChatMessage client={socket.id || ''} data={chatMessages} />
                 </div>
 
             </div>
