@@ -1,109 +1,10 @@
 
-// export const conversationList = [
-//   {
-//     id: 1,
-//     name: "John Doe",
-//     avatar: "/avatars/john.jpg",
-//     lastMessage: "Hey, how are you doing?",
-//      allMessages: [
-//       {
-//         send: "Emily Davis",
-//         receive: "yes boss",
-//       },
-//     ],
-//     timestamp: "2026-09-15T10:30:00Z",
-//     unreadCount: 2,
-//     isOnline: true,
-//   },
-//   {
-//     id: 2,
-//     name: "Jane Smith",
-//     avatar: "/avatars/jane.jpg",
-//     lastMessage: "See you tomorrow!",
-//     timestamp: "2026-09-15T09:15:00Z",
-//     unreadCount: 0,
-//     isOnline: false,
-//   },
-//   {
-//     id: 3,
-//     name: "Bob Johnson",
-//     avatar: "/avatars/bob.jpg",
-//     lastMessage: "Thanks for your help!",
-//     timestamp: "2026-09-14T18:45:00Z",
-//     unreadCount: 5,
-//     isOnline: true,
-//   },
-//   {
-//     id: 4,
-//     name: "Sarah Williams",
-//     avatar: "/avatars/sarah.jpg",
-//     lastMessage: "I'll send you the documents tonight.",
-//     timestamp: "2026-09-14T16:20:00Z",
-//     unreadCount: 1,
-//     isOnline: true,
-//   },
-//   {
-//     id: 5,
-//     name: "Michael Brown",
-//     avatar: "/avatars/michael.jpg",
-//     lastMessage: "Let's discuss this tomorrow.",
-//     timestamp: "2026-09-14T14:10:00Z",
-//     unreadCount: 0,
-//     isOnline: false,
-//   },
-//   {
-//     id: 6,
-//     name: "Emily Davis",
-//     avatar: "/avatars/emily.jpg",
-//     lastMessage: "That sounds great! 👍",
-//     timestamp: "2026-09-13T21:30:00Z",
-//     unreadCount: 3,
-//     isOnline: true,
-//   },
-//   {
-//     id: 7,
-//     name: "David Wilson",
-//     avatar: "/avatars/david.jpg",
-//     lastMessage: "Can you check the latest update?",
-//     timestamp: "2026-09-13T19:05:00Z",
-//     unreadCount: 0,
-//     isOnline: false,
-//   },
-//   {
-//     id: 8,
-//     name: "Olivia Martinez",
-//     avatar: "/avatars/olivia.jpg",
-//     lastMessage: "Thank you so much!",
-//     timestamp: "2026-09-13T15:40:00Z",
-//     unreadCount: 4,
-//     isOnline: true,
-//   },
-//   {
-//     id: 9,
-//     name: "James Anderson",
-//     avatar: "/avatars/james.jpg",
-//     lastMessage: "I'll call you in a few minutes.",
-//     timestamp: "2026-09-12T12:25:00Z",
-//     unreadCount: 0,
-//     isOnline: false,
-//   },
-//   {
-//     id: 10,
-//     name: "Sophia Taylor",
-//     avatar: "/avatars/sophia.jpg",
-//     lastMessage: "Perfect, see you there!",
-//     timestamp: "2026-09-12T10:15:00Z",
-//     unreadCount: 1,
-//     isOnline: true,
-//   },
-// ];
+import { type Conversation } from "../types/index";
 
-
-
-export const conversationList = [
+export const conversationList : Conversation[] = [
   {
     id: 1,
-    name: "John Doe",
+    username: "John Doe",
     avatar: "/avatars/john.jpg",
     lastMessage: "Hey, how are you doing?",
     allMessages: [
@@ -150,7 +51,7 @@ export const conversationList = [
 
   {
     id: 2,
-    name: "Jane Smith",
+    username: "Jane Smith",
     avatar: "/avatars/jane.jpg",
     lastMessage: "See you tomorrow!",
     allMessages: [
@@ -197,7 +98,7 @@ export const conversationList = [
 
   {
     id: 3,
-    name: "Bob Johnson",
+    username: "Bob Johnson",
     avatar: "/avatars/bob.jpg",
     lastMessage: "Thanks for your help!",
     allMessages: [
@@ -244,7 +145,7 @@ export const conversationList = [
 
   {
     id: 4,
-    name: "Sarah Williams",
+    username: "Sarah Williams",
     avatar: "/avatars/sarah.jpg",
     lastMessage: "I'll send you the documents tonight.",
     allMessages: [
@@ -284,7 +185,7 @@ export const conversationList = [
 
   {
     id: 5,
-    name: "Michael Brown",
+    username: "Michael Brown",
     avatar: "/avatars/michael.jpg",
     lastMessage: "Let's discuss this tomorrow.",
     allMessages: [
@@ -331,7 +232,7 @@ export const conversationList = [
 
   {
     id: 6,
-    name: "Emily Davis",
+    username: "Emily Davis",
     avatar: "/avatars/emily.jpg",
     lastMessage: "That sounds great! 👍",
     allMessages: [
@@ -385,7 +286,7 @@ export const conversationList = [
 
   {
     id: 7,
-    name: "David Wilson",
+    username: "David Wilson",
     avatar: "/avatars/david.jpg",
     lastMessage: "Can you check the latest update?",
     allMessages: [
@@ -421,52 +322,5 @@ export const conversationList = [
     timestamp: "2026-09-13T19:05:00Z",
     unreadCount: 0,
     isOnline: false,
-  },
-
-  {
-    id: 8,
-    name: "Olivia Martinez",
-    avatar: "/avatars/olivia.jpg",
-    lastMessage: "Thank you so much!",
-    allMessages: [
-      {
-        id: 1,
-        sender: "You",
-        receiver: "Olivia Martinez",
-        text: "I sent you the files.",
-        timestamp: "2026-09-13T15:20:00Z",
-      },
-      {
-        id: 2,
-        sender: "Olivia Martinez",
-        receiver: "You",
-        text: "I received them.",
-        timestamp: "2026-09-13T15:25:00Z",
-      },
-      {
-        id: 3,
-        sender: "You",
-        receiver: "Olivia Martinez",
-        text: "Let me know if you need anything else.",
-        timestamp: "2026-09-13T15:30:00Z",
-      },
-      {
-        id: 4,
-        sender: "Olivia Martinez",
-        receiver: "You",
-        text: "Everything looks perfect.",
-        timestamp: "2026-09-13T15:35:00Z",
-      },
-      {
-        id: 5,
-        sender: "Olivia Martinez",
-        receiver: "You",
-        text: "Thank you so much!",
-        timestamp: "2026-09-13T15:40:00Z",
-      },
-    ],
-    timestamp: "2026-09-13T15:40:00Z",
-    unreadCount: 4,
-    isOnline: true,
   },
 ];
