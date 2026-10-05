@@ -36,26 +36,27 @@ export default function ChatArea({ selectedUser }: { selectedUser: any }) {
 
 
 
-    // here we listen to the message from the backend, and we will update the chatMessages state with the new message
-    // socket.on('send-message', (message) => {
+    // here we listen  the message from the backend, and we will update the 
+    // chatMessages state with the new message
+    socket.on('send-message', (message) => {
 
-    // console.log('a new user message from: ' + message);
+    console.log('a new user message from: ' + message);
 
-    // const { text, date, sender } = message;
+    const { text, date, sender } = message;
 
-    // console.log('message : ' + text + ' date : ' + date + ' sender : ' + sender);
-
-
-
-    // console.log(typeof sender, 'we receive the id from server: ');
-
-    // socket.off("send-message");
-    // const state = [...chatMessages, { text, date, sender }];
-
-    // setChatMessages(state);
+    console.log('message : ' + text + ' date : ' + date + ' sender : ' + sender);
 
 
-    // });
+
+    console.log(typeof sender, 'we receive the id from server: ');
+
+    socket.off("send-message");
+    const state = [...chatMessages, { text, date, sender }];
+
+    setChatMessages(state);
+
+
+    });
 
 
     // here data send to backend
@@ -160,6 +161,12 @@ export default function ChatArea({ selectedUser }: { selectedUser: any }) {
                         value={message}
                         onChange={(e) =>
                             setMessage(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                handleSendMessage();
+                            }
+                        }}
                         placeholder="Type a message..."
                         className="w-full text-base text-slate-700 focus:outline-none placeholder-slate-400"
                     />

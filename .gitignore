@@ -1,4 +1,6 @@
 node_modules
+.env
+vite-env.d.ts
 dist
 dist-ssr
 *.local
